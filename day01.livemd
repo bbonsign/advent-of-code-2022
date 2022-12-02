@@ -80,7 +80,8 @@ defmodule DayOne do
   end
 
   def part_one(input) do
-    parse(input)
+    input
+    |> parse()
     |> Enum.max()
   end
 
