@@ -2,8 +2,12 @@
 
 ```elixir
 Mix.install([
-  {:kino_aoc, git: "https://github.com/ljgago/kino_aoc"}
+  {:kino_aoc, git: "https://github.com/ljgago/kino_aoc"},
+  {:kino, "~> 0.7.0"},
+  {:kino_vega_lite, "~> 0.1.4"}
 ])
+
+alias VegaLite, as: Vl
 ```
 
 ## Part 1
@@ -49,8 +53,6 @@ In case the Elves get hungry and need extra snacks, they need to know which Elf 
 
 Find the Elf carrying the most Calories. How many total Calories is that Elf carrying?
 
-<!-- livebook:{"attrs":{"day":"1","session_secret":"AOC_COOKIE","variable":"puzzle_input","year":"2022"},"kind":"Elixir.KinoAOC.HelperCell","livebook_object":"smart_cell"} -->
-
 ```elixir
 {:ok, puzzle_input} = KinoAOC.download_puzzle("2022", "1", System.fetch_env!("LB_AOC_COOKIE"))
 ```
@@ -69,18 +71,11 @@ Find the top three Elves carrying the most Calories. How many Calories are those
 
 ```elixir
 defmodule DayOne do
-  defp parse(input) do
+  def parse(input) do
     input
     |> String.split("\n\n")
-    |> Enum.map(&String.split(&1, "\n"))
-    |> Enum.map(fn list ->
-      for str <- list do
-        case Integer.parse(str) do
-          {int, _} -> int
-          :error -> 0
-        end
-      end
-    end)
+    |> Enum.map(&String.split(&1, "\n", trim: true))
+    |> Enum.map(&Enum.map(&1, fn i -> String.to_integer(i) end))
     |> Enum.map(&Enum.sum(&1))
   end
 
@@ -89,17 +84,14 @@ defmodule DayOne do
     |> Enum.max()
   end
 
-  defp update_acc({x, y, z}, int) when int > x, do: {int, y, z}
-  defp update_acc({x, y, z}, int) when int > y, do: {x, int, z}
-  defp update_acc({x, y, z}, int) when int > z, do: {x, y, int}
-  defp update_acc(acc, _), do: acc
+  defp update_acc(int, {x, y, z}) when int > x, do: {int, y, z}
+  defp update_acc(int, {x, y, z}) when int > y, do: {x, int, z}
+  defp update_acc(int, {x, y, z}) when int > z, do: {x, y, int}
+  defp update_acc(_, acc), do: acc
 
   def part_two(input) do
     parse(input)
-    |> Enum.reduce(
-      {0, 0, 0},
-      fn int, acc -> update_acc(acc, int) end
-    )
+    |> Enum.reduce({0, 0, 0}, &update_acc(&1, &2))
     |> Tuple.sum()
   end
 end
