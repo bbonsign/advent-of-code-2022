@@ -85,16 +85,16 @@ defmodule DayOne do
     |> Enum.max()
   end
 
-  defp update_acc(int, {x, y, z}) when int > x, do: {int, y, z}
-  defp update_acc(int, {x, y, z}) when int > y, do: {x, int, z}
-  defp update_acc(int, {x, y, z}) when int > z, do: {x, y, int}
-  defp update_acc(_, acc), do: acc
-
   def part_two(input) do
     parse(input)
     |> Enum.reduce({0, 0, 0}, &update_acc(&1, &2))
     |> Tuple.sum()
   end
+
+  defp update_acc(int, {x, y, z}) when int > x, do: {int, y, z}
+  defp update_acc(int, {x, y, z}) when int > y, do: {x, int, z}
+  defp update_acc(int, {x, y, z}) when int > z, do: {x, y, int}
+  defp update_acc(_, acc), do: acc
 end
 ```
 
