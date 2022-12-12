@@ -34,3 +34,6 @@ Using [Elixir](https://elixir-lang.org/) in [livebook](https://livebook.dev)
 
 ## Day 11
 [![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fraw.githubusercontent.com%2Fbbonsign%2Fadvent-of-code-2022%2Fmain%2Fday11.livemd)
+
+## Day 12
+[![Run in Livebook](https://livebook.dev/badge/v1/blue.svg)](https://livebook.dev/run?url=https%3A%2F%2Fraw.githubusercontent.com%2Fbbonsign%2Fadvent-of-code-2022%2Fmain%2Fday12.livemd)
